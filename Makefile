@@ -6,6 +6,9 @@ run:
 lint:
 	golangci-lint run ./..
 
+lint-fix:
+	golangci-lint run --fix ./...
+
 fmt:
 	gofmt -w .
 	goimports -w .
