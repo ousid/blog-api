@@ -6,6 +6,10 @@ import (
 	"gorm.io/gorm"
 )
 
+func (p Post) IsPublished() bool {
+	return p.PublishedAt != nil
+}
+
 type Post struct {
 	gorm.Model
 	Title       string     `gorm:"not null" json:"title"`
