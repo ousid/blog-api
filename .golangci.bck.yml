@@ -1,0 +1,29 @@
+run:
+  timeout: 5m
+
+linters:
+  enable:
+    - errcheck        # ensures errors are always handled
+    - gosimple        # simplify code suggestions
+    - govet           # checks for suspicious constructs
+    - ineffassign     # detects unused variable assignments
+    - staticcheck     # advanced static analysis
+    - unused          # detects unused code
+    - gofmt           # enforces formatting (like Pint)
+    - goimports       # keeps imports clean and sorted
+    - misspell        # catches typos in comments and strings
+    - godot           # comments should end with a period
+    - exhaustive      # checks switch statements are exhaustive
+
+linters-settings:
+  gofmt:
+    simplify: true
+  goimports:
+    local-prefixes: github.com/coderflexx/blog-api
+
+issues:
+  exclude-rules:
+    # Ignore missing error checks in main.go for brevity
+    - path: cmd/main.go
+      linters:
+        - errcheck
