@@ -4,7 +4,7 @@ run:
 	go run cmd/main.go
 
 lint:
-	golangci-lint run ./..
+	golangci-lint run ./...
 
 lint-fix:
 	golangci-lint run --fix ./...
