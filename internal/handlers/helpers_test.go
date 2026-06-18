@@ -13,7 +13,7 @@ import (
 	"github.com/coderflexx/blog-api/internal/router"
 )
 
-// bootstraps the full app for each test
+// bootstraps the full app for each test.
 func setupTestApp(t *testing.T) http.Handler {
 	t.Helper()
 	database.SetupTestDB()
@@ -38,7 +38,7 @@ func makeRequest(t *testing.T, app http.Handler, method, url string, body any) *
 	return rr
 }
 
-// seed a category for tests that need one
+// seed a category for tests that need one.
 func seedCategory(t *testing.T) models.Category {
 	t.Helper()
 	category := models.Category{Name: "Laravel", Slug: "laravel"}

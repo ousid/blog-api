@@ -1,13 +1,14 @@
 package database
 
 import (
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+
 	"github.com/coderflexx/blog-api/internal/models"
-    "gorm.io/driver/sqlite"
-    "gorm.io/gorm"
-    "gorm.io/gorm/logger"
 )
 
-// SetupTestDB creates an in-memory SQLite DB for tests
+// SetupTestDB creates an in-memory SQLite DB for tests.
 func SetupTestDB() *gorm.DB {
 	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent),
@@ -16,10 +17,9 @@ func SetupTestDB() *gorm.DB {
 		panic("failed to connect to test database")
 	}
 
-	db.AutoMigrate(
-		&models.Category{},
-		&models.Post{},
-	)
+	if err := db.AutoMigrate(&models.Category{}, &models.Post{}); err != nil {
+		panic("failed to migrate test database")
+	}
 
 	// override the global DB with the test DB
 	DB = db
@@ -27,7 +27,7 @@ func SetupTestDB() *gorm.DB {
 	return db
 }
 
-// CleanupTestDB wipes all tables between tests
+// CleanupTestDB wipes all tables between tests.
 func CleanupTestDB() {
 	DB.Exec("DELETE FROM posts")
 	DB.Exec("DELETE FROM categories")

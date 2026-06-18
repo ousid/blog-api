@@ -1,13 +1,14 @@
 package handlers_test
 
-import(
+import (
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"testing"
 
-	"github.com/coderflexx/blog-api/internal/database"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/coderflexx/blog-api/internal/database"
 )
 
 func TestListPosts(t *testing.T) {
@@ -23,7 +24,7 @@ func TestListPosts(t *testing.T) {
 	assert.Equal(t, http.StatusOK, rr.Code)
 
 	var response map[string]any
-	json.Unmarshal(rr.Body.Bytes(), &response)
+	_ = json.Unmarshal(rr.Body.Bytes(), &response)
 
 	data := response["data"].([]any)
 	assert.Len(t, data, 2)
@@ -41,7 +42,7 @@ func TestGetPost(t *testing.T) {
 	assert.Equal(t, http.StatusOK, rr.Code)
 
 	var response map[string]any
-	json.Unmarshal(rr.Body.Bytes(), &response)
+	_ = json.Unmarshal(rr.Body.Bytes(), &response)
 
 	data := response["data"].(map[string]any)
 	assert.Equal(t, post.Title, data["title"])
@@ -64,9 +65,9 @@ func TestCreatePost(t *testing.T) {
 	category := seedCategory(t)
 
 	body := map[string]any{
-		"title": "my new post",
-		"content": "this is the full content of my new post.",
-		"excerpt": "short summary.",
+		"title":       "my new post",
+		"content":     "this is the full content of my new post.",
+		"excerpt":     "short summary.",
 		"category_id": category.ID,
 	}
 
@@ -75,7 +76,7 @@ func TestCreatePost(t *testing.T) {
 	assert.Equal(t, http.StatusCreated, rr.Code)
 
 	var response map[string]any
-	json.Unmarshal(rr.Body.Bytes(), &response)
+	_ = json.Unmarshal(rr.Body.Bytes(), &response)
 
 	data := response["data"].(map[string]any)
 	assert.Equal(t, "my new post", data["title"])
@@ -95,7 +96,7 @@ func TestCreatePost_ValidationFails(t *testing.T) {
 	assert.Equal(t, http.StatusUnprocessableEntity, rr.Code)
 
 	var response map[string]any
-	json.Unmarshal(rr.Body.Bytes(), &response)
+	_ = json.Unmarshal(rr.Body.Bytes(), &response)
 
 	assert.Equal(t, "Validation failed", response["message"])
 	assert.NotEmpty(t, response["errors"])
@@ -115,7 +116,7 @@ func TestCreatePost_DuplicatingSlug(t *testing.T) {
 	}
 
 	rr := makeRequest(t, app, http.MethodPost, "/api/posts", body)
-	
+
 	assert.Equal(t, http.StatusUnprocessableEntity, rr.Code)
 }
 
@@ -138,11 +139,11 @@ func TestUpdatePost(t *testing.T) {
 	assert.Equal(t, http.StatusOK, rr.Code)
 
 	var response map[string]any
-	json.Unmarshal(rr.Body.Bytes(), &response)
+	_ = json.Unmarshal(rr.Body.Bytes(), &response)
 
 	data := response["data"].(map[string]any)
 	assert.Equal(t, "Updated Post Title", data["title"])
-	assert.Equal(t, "updated-post-title", data["slug"]) 
+	assert.Equal(t, "updated-post-title", data["slug"])
 }
 
 func TestUpdatePost_NotFound(t *testing.T) {

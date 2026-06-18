@@ -4,8 +4,9 @@ import (
 	"testing"
 	"time"
 
-    "github.com/stretchr/testify/assert"
-    "github.com/coderflexx/blog-api/internal/models"
+	"github.com/stretchr/testify/assert"
+
+	"github.com/coderflexx/blog-api/internal/models"
 )
 
 func TestPostIsPublished(t *testing.T) {
