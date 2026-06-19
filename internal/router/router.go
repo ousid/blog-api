@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
 
 	"github.com/coderflexx/blog-api/internal/handlers"
 )
@@ -16,6 +17,13 @@ func Setup() http.Handler {
 	r.Use(middleware.Logger)    // logs every request
 	r.Use(middleware.Recoverer) // catches panics
 	r.Use(middleware.CleanPath) // Normalizes URLs
+
+	// CORS - allow React dev server
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins: []string{"http://localhost:5173"},
+		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders: []string{"Content-Type", "Authorization"},
+	}))
 
 	// health check
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
