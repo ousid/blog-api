@@ -1,2 +1,10 @@
 .env
-database.db
+*.db
+
+# Go build output
+bin/
+vendor/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
